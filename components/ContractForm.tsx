@@ -94,26 +94,6 @@ const ContractForm = () => {
   });
 
   /******************* QR code Creation ******************/
-  useEffect(() => {
-    try {
-      const canvas = document.getElementById("QR") as HTMLCanvasElement;
-      if (canvas) {
-        const pngUrl = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        setQrCodeUrl(pngUrl);
-        /*         let downloadLink = document.createElement("a");
-        downloadLink.href = pngUrl;
-        downloadLink.download = `your_name.png`;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink); */
-      }
-      toast.success("QR Code Generated Succefully");
-    } catch (error) {
-      toast.error("Use erreur c'est produit");
-    }
-  }, []);
 
   /******************* Pdf Creation Compoenent ******************/
 
@@ -325,9 +305,15 @@ const ContractForm = () => {
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
     try {
-      /* 1. Check if the table has empty values */
-      downloadPDF({ ...data, codeUrl: qrCodeUrl });
-      toast.success("Telechargment acompli");
+      const canvas = document.getElementById("QR") as HTMLCanvasElement;
+      if (canvas) {
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        /* Download the contract */
+        downloadPDF({ ...data, codeUrl: pngUrl });
+        toast.success("Telechargment acompli");
+      }
     } catch (error) {
       toast.error("erreur soummission contrat");
     }
