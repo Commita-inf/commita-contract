@@ -94,23 +94,22 @@ const ContractForm = () => {
   });
 
   /******************* QR code Creation ******************/
-
   useEffect(() => {
-    const canvas = document.getElementById("QR") as HTMLCanvasElement;
     try {
+      const canvas = document.getElementById("QR") as HTMLCanvasElement;
       if (canvas) {
         const pngUrl = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream");
         setQrCodeUrl(pngUrl);
-        /*       let downloadLink = document.createElement("a");
+        /*         let downloadLink = document.createElement("a");
         downloadLink.href = pngUrl;
         downloadLink.download = `your_name.png`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink); */
-        toast.success("QR Code Generated Succefully");
       }
+      toast.success("QR Code Generated Succefully");
     } catch (error) {
       toast.error("Use erreur c'est produit");
     }
@@ -174,9 +173,22 @@ const ContractForm = () => {
       fontSize: 12,
       marginBottom: 5,
     },
+    footer: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      marginTop: 15,
+    },
   });
   // Create Document Component
-  const MyDocument = ({ name, phone, email, tenderDescription }: any) => (
+  const MyDocument = ({
+    name,
+    phone,
+    email,
+    tenderDescription,
+    codeUrl,
+  }: any) => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.headerSection}>
@@ -285,9 +297,9 @@ const ContractForm = () => {
           </Text>
         </View> */}
         <View style={styles.logoSection}>
-          <Image style={styles.logo} src={qrCodeUrl} />
+          <Image style={styles.logo} src={codeUrl} />
         </View>
-        <View style={styles.section}>
+        <View style={styles.footer}>
           <Text style={styles.subname}>Signature</Text>
         </View>
       </Page>
@@ -314,7 +326,7 @@ const ContractForm = () => {
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
     try {
       /* 1. Check if the table has empty values */
-      downloadPDF(data);
+      downloadPDF({ ...data, codeUrl: qrCodeUrl });
       toast.success("Telechargment acompli");
     } catch (error) {
       toast.error("erreur soummission contrat");
