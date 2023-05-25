@@ -28,6 +28,7 @@ import {
 //import QRCode from "qrcode";
 import { QRCode } from "react-qrcode-logo";
 import { v4 as uuidv4 } from "uuid";
+import SignaturePadCompoenent from "./SignaturePadCompoenent";
 
 /******************* We are using zod to vatidate all input fields ******************/
 const validationSchema = z.object({
@@ -114,17 +115,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
-    marginTop: 10,
+    margin: 10,
   },
 
   logo: {
     width: 250,
     height: 250,
-    backgroundColor: "#000000",
+    backgroundColor: "#fff",
     objectFit: "contains",
     borderWidth: 1,
     borderColor: "#000000",
+    padding: 1,
+  },
+
+  signture: {
+    width: 150,
+    height: 50,
+    backgroundColor: "#fff",
+    objectFit: "contains",
     padding: 1,
   },
 
@@ -159,6 +167,7 @@ const ContractForm = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [uniqueId, setUniqueId] = useState(uuidv4());
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [signtureUrl, setSigntureUrl] = useState<string>("");
 
   const {
     register,
@@ -331,6 +340,7 @@ const ContractForm = () => {
           <View style={styles.footer}>
             <Text style={styles.text}>Tunisie, {formattedDate}</Text>
             <Text style={styles.subname}>Signature</Text>
+            <Image style={styles.signture} src={signtureUrl} />
           </View>
         </Page>
       </Document>
@@ -384,7 +394,7 @@ const ContractForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
+    <div className="flex items-center justify-center w-screen h-full p-4">
       <div className="flex flex-col items-center justify-center w-full md:w-[50%] gap-8 p-8 border border-black rounded-2xl">
         <form
           className="flex flex-col items-center justify-center w-full h-full"
@@ -444,7 +454,8 @@ const ContractForm = () => {
             </button>
             <button
               type="submit"
-              className="inline-flex items-center justify-center w-32 h-12 text-sm font-medium text-center text-white bg-amber-500 rounded-xl hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800 shadow-md shadow-gray-400 active:translate-y-1"
+              disabled={!imageUrl || !signtureUrl}
+              className="inline-flex items-center justify-center w-32 h-12 text-sm font-medium text-center text-white bg-amber-500 rounded-xl hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800 shadow-md shadow-gray-400 active:translate-y-1 disabled:bg-black"
             >
               Télécharger
             </button>
@@ -456,12 +467,12 @@ const ContractForm = () => {
               id="QR"
               value={uniqueId} // here you should keep the link/value(string) for which you are generation promocode
               size={350} // the dimension of the QR code (number)
-              logoImage="/ant-logo.png" // URL of the logo you want to use, make sure it is a dynamic url
+              logoImage="/commita-logo-white.jpeg" // URL of the logo you want to use, make sure it is a dynamic url
               logoHeight={70}
               logoWidth={70}
               logoOpacity={1}
               enableCORS={true} // enabling CORS, this is the thing that will bypass that DOM check
-              qrStyle="dots" // type of qr code, wether you want dotted ones or the square ones
+              qrStyle="squares" // type of qr code, wether you want dotted ones or the square ones
               eyeRadius={10} // radius of the promocode eye
             />
           </div>
@@ -483,11 +494,15 @@ const ContractForm = () => {
               <img
                 src={imageUrl}
                 alt="Selected image"
-                className="w-[350px] h-[330px] object-contain] rounded-md"
+                className="object-contain rounded-md"
               />
             )}
           </div>
         </div>
+        <h2 className="font-bold text-xl">
+          Veuillez apposer votre signature dans le carré
+        </h2>
+        <SignaturePadCompoenent setSigntureUrl={setSigntureUrl} />
       </div>
     </div>
   );
