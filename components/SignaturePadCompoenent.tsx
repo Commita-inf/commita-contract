@@ -25,10 +25,7 @@ const SignaturePadCompoenent = ({ setSigntureUrl }: any) => {
   return (
     <div className="flex flex-col justify-center gap-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-start justify-between">
-        <div
-          className="flex flex-col col-span-1 gap-2"
-          style={{ border: "2px solid black", width: 500, height: 200 }}
-        >
+        <div className="flex flex-col col-span-1 gap-2 border border-black w-full">
           <SignatureCanvas
             canvasProps={{ width: 500, height: 200, className: "sigCanvas" }}
             ref={(data) => setSign(data)}

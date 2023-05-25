@@ -394,8 +394,8 @@ const ContractForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-full p-4">
-      <div className="flex flex-col items-center justify-center w-full md:w-[50%] gap-8 p-8 border border-black rounded-2xl">
+    <div className="flex items-center justify-center w-screen h-full">
+      <div className="flex flex-col items-center justify-center w-full md:w-[50%] gap-8 p-2 xl:p-8 border border-black rounded-2xl">
         <form
           className="flex flex-col items-center justify-center w-full h-full"
           onSubmit={handleSubmit(onSubmit)}
@@ -462,7 +462,7 @@ const ContractForm = () => {
           </div>
         </form>
         <div className="grid grid-cols-1 md:grid-cols-2 w-full items-center justify-center gap-2">
-          <div className="border border-black rounded-md overflow-hidden p-2 col-span-1 flex items-center justify-center">
+          <div className="border border-black rounded-md col-span-1 flex items-center justify-center">
             <QRCode
               id="QR"
               value={uniqueId} // here you should keep the link/value(string) for which you are generation promocode
